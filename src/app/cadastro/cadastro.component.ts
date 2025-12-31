@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout'
 import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card'
@@ -6,6 +6,8 @@ import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatInputModule } from '@angular/material/input'
 import { MatIconModule } from '@angular/material/icon'
 import { MatButtonModule } from '@angular/material/button'
+import { Cliente } from './cliente';
+import { ClienteService } from '../cliente.service';
 
 
 @Component({
@@ -22,11 +24,12 @@ import { MatButtonModule } from '@angular/material/button'
   templateUrl: './cadastro.component.html',
   styleUrls: ['./cadastro.component.scss']
 })
-export class CadastroComponent implements OnInit {
+export class CadastroComponent {
+  cliente: Cliente = Cliente.NewCliente();
 
-  constructor() { }
+  constructor(private _service: ClienteService) { }
 
-  ngOnInit() {
+  salvar() {
+    this._service.salvar(this.cliente);
   }
-
 }
