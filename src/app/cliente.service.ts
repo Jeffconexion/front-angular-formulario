@@ -6,10 +6,29 @@ import { Cliente } from './cadastro/cliente';
 })
 export class ClienteService {
 
+  static REPO_CLIENTES = "_CLIENTES";
+
   constructor() { }
 
   salvar(cliente: Cliente) {
-    console.log('Cliente salvo no serviço:', cliente);
+    let storageClientes = this.obterStorage();
+    storageClientes.push(cliente);
+
+    localStorage.setItem(ClienteService.REPO_CLIENTES, JSON.stringify(storageClientes));
+  }
+
+  obterStorage(): Cliente[] {
+    let clientes: Cliente[] = []
+
+    let repositorioClientes = localStorage.getItem(ClienteService.REPO_CLIENTES);
+
+    if (repositorioClientes) {
+      clientes = JSON.parse(repositorioClientes);
+      return clientes;
+    }
+
+    localStorage.setItem(ClienteService.REPO_CLIENTES, JSON.stringify(clientes))
+    return clientes;
   }
 
 }

@@ -12,5 +12,4 @@ export class Cliente {
     cliente.id = uuid();
     return cliente;
   }
-
 }
