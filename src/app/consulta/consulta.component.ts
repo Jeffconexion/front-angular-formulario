@@ -30,11 +30,15 @@ export class ConsultaComponent implements OnInit {
 
   listaClientes: Cliente[] = [];
   colunasTable: string[] = ["id", "nome", "cpf", "dataNascimento", "email"]
-
+  nomeBusca: string = "";
   constructor(private _service: ClienteService) { }
 
   ngOnInit(): void {
     this.listaClientes = this._service.pesquisarCliente('');
     console.log(this.listaClientes);
+  }
+
+  pesquisar() {
+    this.listaClientes = this._service.pesquisarCliente(this.nomeBusca)
   }
 }
