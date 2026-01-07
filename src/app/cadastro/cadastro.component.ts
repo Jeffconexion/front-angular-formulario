@@ -45,6 +45,12 @@ export class CadastroComponent implements OnInit {
   }
 
   salvar() {
-    this._service.salvar(this.cliente);
+    if (this.atualizando === false) {
+      this._service.salvar(this.cliente);
+      this.cliente = Cliente.NewCliente();
+    } else {
+      this._service.atualizar(this.cliente);
+      this._router.navigate(['/consulta']);
+    }
   }
 }

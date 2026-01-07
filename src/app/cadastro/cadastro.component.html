@@ -63,16 +63,17 @@
           </div>
         </mat-card-content>
         <mat-card-actions>
+          @if(atualizando === false){
           <button mat-flat-button color="primary" type="submit">
             <mat-icon fontIcon="save"></mat-icon>
             Salvar
           </button>
-
+          }@else {
           <button mat-flat-button color="primary" type="submit">
             <mat-icon fontIcon="refresh"></mat-icon>
             Atualizar
           </button>
-
+          }
           <button mat-flat-button color="accent" type="submit" class="ml-5">
             <mat-icon fontIcon="backspace"></mat-icon>
             Limpar
