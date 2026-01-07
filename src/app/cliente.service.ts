@@ -24,6 +24,11 @@ export class ClienteService {
     return this.obterStorage().filter(cliente => cliente.nome?.toLowerCase().indexOf(nome.toLowerCase()) !== -1);
   }
 
+  pesquisarClientePorId(id: string): Cliente | undefined {
+    const clientes = this.obterStorage();
+    return clientes.find(cliente => cliente.id = id);
+  }
+
   private obterStorage(): Cliente[] {
     let clientes: Cliente[] = []
 
