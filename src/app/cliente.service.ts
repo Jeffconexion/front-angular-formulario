@@ -28,6 +28,16 @@ export class ClienteService {
     localStorage.setItem(ClienteService.REPO_CLIENTES, JSON.stringify(storageClientes));
   }
 
+  deletar(cliente: Cliente) {
+    let storage = this.obterStorage();
+    let index = storage.findIndex(c => c.id === cliente.id);
+
+    if (index > -1) {
+      storage.splice(index, 1);
+    }
+    localStorage.setItem(ClienteService.REPO_CLIENTES, JSON.stringify(storage));
+  }
+
   pesquisarCliente(nome: string): Cliente[] {
     if (!nome) {
       return this.obterStorage();

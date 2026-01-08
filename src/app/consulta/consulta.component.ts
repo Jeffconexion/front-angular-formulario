@@ -33,6 +33,8 @@ export class ConsultaComponent implements OnInit {
   colunasTable: string[] = ["Id", "Nome", "CPF", "Data de Nascimento", "E-mail", "Ações"]
   nomeBusca: string = "";
   constructor(private _service: ClienteService, private _router: Router) { }
+  deletando: boolean = false;
+
 
   ngOnInit(): void {
     this.listaClientes = this._service.pesquisarCliente('');
@@ -48,5 +50,15 @@ export class ConsultaComponent implements OnInit {
       ["/cadastro"],
       { queryParams: { id: id } }
     )
+  }
+
+  preparaDeletar() {
+    this.deletando = true;
+  }
+
+  deletar(cliente: Cliente) {
+    this._service.deletar(cliente);
+    this.listaClientes = this._service.pesquisarCliente('');
+    this.deletando = false;
   }
 }
