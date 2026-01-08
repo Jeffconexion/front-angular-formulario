@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -11,6 +11,7 @@ import { Cliente } from '../cadastro/cliente';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { NgxMaskDirective, provideNgxMask, NgxMaskPipe } from 'ngx-mask'
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 
@@ -39,6 +40,8 @@ export class ConsultaComponent implements OnInit {
   listaClientes: Cliente[] = [];
   colunasTable: string[] = ["Id", "Nome", "CPF", "Data de Nascimento", "E-mail", "Ações"]
   nomeBusca: string = "";
+  private _snackBar = inject(MatSnackBar);
+
 
   constructor(private _service: ClienteService, private _router: Router) { }
 
@@ -49,6 +52,7 @@ export class ConsultaComponent implements OnInit {
 
   pesquisar() {
     this.listaClientes = this._service.pesquisarCliente(this.nomeBusca)
+    this.exibirMensagemDeFeedback("Busca finlizada!", "Ok");
   }
 
   preparaEditar(id: string) {
@@ -65,5 +69,10 @@ export class ConsultaComponent implements OnInit {
   deletar(cliente: Cliente) {
     this._service.deletar(cliente);
     this.listaClientes = this._service.pesquisarCliente('');
+    this.exibirMensagemDeFeedback("Deletado com sucesso!", "Ok");
+  }
+
+  exibirMensagemDeFeedback(message: string, action: string) {
+    this._snackBar.open(message, action);
   }
 }

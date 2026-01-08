@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout'
 import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card'
@@ -10,6 +10,7 @@ import { Cliente } from './cliente';
 import { ClienteService } from '../cliente.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask'
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-cadastro',
@@ -32,6 +33,8 @@ import { NgxMaskDirective, provideNgxMask } from 'ngx-mask'
 export class CadastroComponent implements OnInit {
   cliente: Cliente = Cliente.NewCliente();
   atualizando: boolean = false;
+  private _snackBar = inject(MatSnackBar);
+
 
   constructor(private _service: ClienteService, private _router: Router, private _activatedRoute: ActivatedRoute) { }
   ngOnInit() {
@@ -52,9 +55,15 @@ export class CadastroComponent implements OnInit {
     if (this.atualizando === false) {
       this._service.salvar(this.cliente);
       this.cliente = Cliente.NewCliente();
+      this.exibirMensagemDeFeedback("Salvo com sucesso!", "Ok");
     } else {
       this._service.atualizar(this.cliente);
       this._router.navigate(['/consulta']);
+      this.exibirMensagemDeFeedback("Atualizado com sucesso!", "Ok");
     }
+  }
+
+  exibirMensagemDeFeedback(message: string, action: string) {
+    this._snackBar.open(message, action);
   }
 }
