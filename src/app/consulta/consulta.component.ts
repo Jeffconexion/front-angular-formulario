@@ -10,6 +10,8 @@ import { ClienteService } from '../cliente.service';
 import { Cliente } from '../cadastro/cliente';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { NgxMaskDirective, provideNgxMask, NgxMaskPipe } from 'ngx-mask'
+
 
 
 @Component({
@@ -22,7 +24,12 @@ import { Router } from '@angular/router';
     FlexLayoutModule,
     FormsModule,
     MatButtonModule,
-    CommonModule
+    CommonModule,
+    NgxMaskDirective,
+    NgxMaskPipe
+  ],
+  providers: [
+    provideNgxMask()
   ],
   templateUrl: './consulta.component.html',
   styleUrls: ['./consulta.component.css']
@@ -32,9 +39,8 @@ export class ConsultaComponent implements OnInit {
   listaClientes: Cliente[] = [];
   colunasTable: string[] = ["Id", "Nome", "CPF", "Data de Nascimento", "E-mail", "Ações"]
   nomeBusca: string = "";
-  constructor(private _service: ClienteService, private _router: Router) { }
-  deletando: boolean = false;
 
+  constructor(private _service: ClienteService, private _router: Router) { }
 
   ngOnInit(): void {
     this.listaClientes = this._service.pesquisarCliente('');
@@ -52,13 +58,12 @@ export class ConsultaComponent implements OnInit {
     )
   }
 
-  preparaDeletar() {
-    this.deletando = true;
+  preparaDeletar(cliente: Cliente) {
+    cliente.deletado = true;
   }
 
   deletar(cliente: Cliente) {
     this._service.deletar(cliente);
     this.listaClientes = this._service.pesquisarCliente('');
-    this.deletando = false;
   }
 }
