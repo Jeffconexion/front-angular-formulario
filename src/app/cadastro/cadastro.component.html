@@ -8,42 +8,61 @@
         <mat-card-content class="mt-20">
           <div fxLayout="row" fxLayoutAlign="start" fxLayoutGap="16px">
             <mat-form-field class="full-width">
-              <mat-label>Nome: *</mat-label>
+              <mat-label>Nome:</mat-label>
               <input
                 type="text"
                 [(ngModel)]="cliente.nome"
                 name="nome"
+                required
+                #nome="ngModel"
                 placeholder="Digite seu nome"
                 matInput
               />
+              <mat-error *ngIf="nome.invalid && nome.touched">
+                Nome é obrigatório.
+              </mat-error>
             </mat-form-field>
           </div>
 
           <div fxLayout="row" fxLayoutAlign="start" fxLayoutGap="16px">
             <mat-form-field class="full-width">
-              <mat-label>Email: *</mat-label>
+              <mat-label>Email:</mat-label>
               <input
                 type="email"
                 [(ngModel)]="cliente.email"
                 name="email"
+                required
+                email
+                #email="ngModel"
                 placeholder="Digite seu email"
                 matInput
               />
+              <mat-error *ngIf="email.invalid && email.touched">
+                <span *ngIf="email.errors?.['required']"
+                  >Email é obrigatório.</span
+                >
+                <span *ngIf="email.errors?.['email']">Email inválido.</span>
+              </mat-error>
             </mat-form-field>
           </div>
 
           <div fxLayout="row" fxLayoutAlign="start" fxLayoutGap="16px">
             <div fxLayout="column" fxFlex="400px">
               <mat-form-field class="full-width">
-                <mat-label>CPF: *</mat-label>
+                <mat-label>CPF:</mat-label>
                 <input
                   type="text"
                   [(ngModel)]="cliente.cpf"
                   name="cpf"
                   mask="000.000.000-00"
+                  required
+                  #cpf="ngModel"
                   placeholder="Digite seu CPF"
                   matInput
                 />
+                <mat-error *ngIf="cpf.invalid && cpf.touched">
+                  CPF é obrigatório.
+                </mat-error>
               </mat-form-field>
             </div>
           </div>
@@ -51,32 +70,99 @@
           <div fxLayout="row" fxLayoutAlign="start" fxLayoutGap="16px">
             <div fxLayout="column" fxFlex="400px">
               <mat-form-field class="full-width">
-                <mat-label>Data de Nascimento: *</mat-label>
+                <mat-label>Data de Nascimento:</mat-label>
                 <input
                   type="text"
                   [(ngModel)]="cliente.dataNascimento"
                   name="dataNascimento"
                   mask="00/00/0000"
+                  required
+                  #dataNascimento="ngModel"
                   placeholder="Digite data de nascimento"
                   matInput
                 />
+                <mat-error
+                  *ngIf="dataNascimento.invalid && dataNascimento.touched"
+                >
+                  Data de nascimento é obrigatória.
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div fxLayout="row" fxLayoutAlign="start" fxLayoutGap="16px">
+            <div fxLayout="column" fxFlex="400px">
+              <mat-form-field class="full-width">
+                <mat-label>UF:</mat-label>
+                <mat-select
+                  required
+                  [(ngModel)]="cliente.uf"
+                  name="uf"
+                  #uf="ngModel"
+                  (selectionChange)="carregarMunicipios($event)"
+                >
+                  <mat-option *ngFor="let uf of estados" [value]="uf.sigla">
+                    {{ uf.sigla }}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="uf.invalid && uf.touched">
+                  UF é obrigatório.
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div fxLayout="row" fxLayoutAlign="start" fxLayoutGap="16px">
+            <div fxLayout="column" fxFlex="400px">
+              <mat-form-field class="full-width">
+                <mat-label>Municipio:</mat-label>
+                <mat-select
+                  [(ngModel)]="cliente.municipio"
+                  name="municipio"
+                  required
+                  #municipio="ngModel"
+                  (selectionChange)="carregarMunicipios($event)"
+                >
+                  <mat-option *ngFor="let m of municipios" [value]="m.nome">
+                    {{ m.nome }}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="municipio.invalid && municipio.touched">
+                  Município é obrigatório.
+                </mat-error>
               </mat-form-field>
             </div>
           </div>
         </mat-card-content>
         <mat-card-actions>
           @if(atualizando === false){
-          <button mat-flat-button color="primary" type="submit">
+          <button
+            mat-flat-button
+            color="primary"
+            type="submit"
+            [disabled]="clientesFrm.invalid"
+          >
             <mat-icon fontIcon="save"></mat-icon>
             Salvar
           </button>
           }@else {
-          <button mat-flat-button color="primary" type="submit">
+          <button
+            mat-flat-button
+            color="primary"
+            type="submit"
+            [disabled]="clientesFrm.invalid"
+          >
             <mat-icon fontIcon="refresh"></mat-icon>
             Atualizar
           </button>
           }
-          <button mat-flat-button color="accent" type="submit" class="ml-5">
+          <button
+            mat-flat-button
+            color="accent"
+            type="button"
+            class="ml-5"
+            (click)="limpar()"
+          >
             <mat-icon fontIcon="backspace"></mat-icon>
             Limpar
           </button>

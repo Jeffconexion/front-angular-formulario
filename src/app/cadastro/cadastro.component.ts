@@ -13,6 +13,8 @@ import { NgxMaskDirective, provideNgxMask } from 'ngx-mask'
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BrasilapiService } from '../brasilapi.service';
 import { Estado, Municipio } from '../brasilapi.models';
+import { MatSelectChange, MatSelectModule } from '@angular/material/select';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-cadastro',
@@ -25,6 +27,8 @@ import { Estado, Municipio } from '../brasilapi.models';
     MatIconModule,
     MatButtonModule,
     NgxMaskDirective,
+    MatSelectModule,
+    CommonModule
   ],
   providers: [
     provideNgxMask()
@@ -54,6 +58,11 @@ export class CadastroComponent implements OnInit {
         if (clienteEncontrado) {
           this.atualizando = true;
           this.cliente = clienteEncontrado;
+
+          if (this.cliente.uf) {
+            const event = { value: this.cliente.uf };
+            this.carregarMunicipios(event as MatSelectChange)
+          }
         }
       }
     })
@@ -63,9 +72,17 @@ export class CadastroComponent implements OnInit {
 
   carregarUfs() {
     this._brasilApiService.listarUfs().subscribe({
-      next: listaEstados => console.log("Lista estados", listaEstados),
+      next: listaEstados => this.estados = listaEstados,
       error: erro => console.log("Ocorreu um erro:", erro)
     });
+  }
+
+  carregarMunicipios(event: MatSelectChange) {
+    const ufSelecionado = event.value;
+    this._brasilApiService.listarMunicipios(ufSelecionado).subscribe({
+      next: listaMunicipios => this.municipios = listaMunicipios,
+      error: erro => console.log("ocorreu um erro:", erro)
+    })
   }
 
   salvar() {
@@ -78,6 +95,16 @@ export class CadastroComponent implements OnInit {
       this._router.navigate(['/consulta']);
       this.exibirMensagemDeFeedback("Atualizado com sucesso!", "Ok");
     }
+  }
+
+  limpar() {
+    this.cliente.nome = String();
+    this.cliente.cpf = String();
+    this.cliente.dataNascimento = String();
+    this.cliente.email = String();
+    this.cliente.uf = String();
+    this.cliente.municipio = String();
+    this.exibirMensagemDeFeedback("Dados limpos com sucesso!", "Ok");
   }
 
   exibirMensagemDeFeedback(message: string, action: string) {
