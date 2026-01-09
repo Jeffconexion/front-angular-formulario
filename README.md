@@ -1,59 +1,47 @@
-# AppFrontFormulario
+# Cadastro e Consulta de Clientes – Angular 19+
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.0.2.
+Este projeto foi desenvolvido como parte de um treinamento avançado em Angular 19+ e tem como objetivo demonstrar habilidades práticas na construção de aplicações modernas, responsivas e escaláveis utilizando o ecossistema Angular.
 
-## Development server
+## ✨ Visão Geral
 
-To start a local development server, run:
+O sistema permite o cadastro e a consulta de clientes, com interface intuitiva, validações de formulário, integração com a BrasilAPI para seleção dinâmica de estados e municípios, e persistência local dos dados (localStorage). O layout utiliza Angular Material e Flex Layout para garantir responsividade e experiência de usuário aprimorada.
 
-```bash
-ng serve
+## 🚀 Funcionalidades
+
+- **Cadastro de Clientes:**
+  - Nome, e-mail, data de nascimento, CPF (com máscara), UF e município.
+  - Validações de campos obrigatórios e formatos.
+  - Seleção dinâmica de UF e municípios via BrasilAPI.
+- **Consulta de Clientes:**
+  - Busca por nome.
+  - Listagem dos clientes cadastrados.
+  - Opções para editar ou remover clientes.
+- **Persistência Local:**
+  - Todos os dados são armazenados no `localStorage`, dispensando backend.
+- **UI Moderna:**
+  - Utilização de Angular Material, Flex Layout e ícones.
+  - Design responsivo e agradável.
+
+## 🛠️ Tecnologias Utilizadas
+
+- [Angular 19+](https://angular.io/)
+- Angular Material
+- Angular Flex Layout
+- [BrasilAPI](https://brasilapi.com.br/) (Estados e Municípios)
+- ngx-mask
+- TypeScript
+
+## 📂 Estrutura do Projeto
+
+```
+src/app/
+  cadastro/         # Componente de cadastro de clientes
+  consulta/         # Componente de consulta de clientes
+  brasilapi.service.ts  # Serviço para integração com BrasilAPI
+  cliente.service.ts    # Serviço para persistência local
+  ...
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## 🎯 Objetivo Profissional
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Este projeto foi criado para demonstrar domínio em Angular, boas práticas de desenvolvimento frontend, componentização, integração com APIs públicas.

@@ -55,6 +55,12 @@ export class ConsultaComponent implements OnInit {
     this.exibirMensagemDeFeedback("Busca finlizada!", "Ok");
   }
 
+  limpar() {
+    this.nomeBusca = ""
+    this.listaClientes = this._service.pesquisarCliente(this.nomeBusca);
+    this.exibirMensagemDeFeedback("Buscando todos os Registros!", "Ok");
+  }
+
   preparaEditar(id: string) {
     this._router.navigate(
       ["/cadastro"],
